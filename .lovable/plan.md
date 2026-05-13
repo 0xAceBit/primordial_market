@@ -1,86 +1,56 @@
 ## Goal
 
-Rebuild the OG Agentic Marketplace as a fresh Lovable project: premium light/editorial UI, working wallet connect, and real on-chain reads + transactions on **0G Mainnet** (Chain ID 16661, RPC `https://evmrpc.0g.ai`, explorer `https://chainscan.0g.ai`, native token `0G`).
+Transform the Marketplace from a static editorial grid into a fun, intuitive browsing experience — without losing the premium light/editorial aesthetic established on the rest of the site.
 
-The existing GitHub repo is reference only — nothing syncs back to it.
+## What changes
 
----
+### 1. Hero strip with live stats
+Replace the plain header with a compact, animated banner:
+- Animated counters: total agents, total sales, average price, unique creators
+- Subtle floating gradient blob behind the title (reuse existing blob assets)
+- Friendlier subtitle copy and a "Surprise me" button that scrolls to a random agent
 
-## 1. Stack & Setup
+### 2. Smarter, more playful filter bar (sticky)
+- Sticky on scroll so filters stay accessible
+- Replace the native `<select>` with a styled dropdown (shadcn Select) matching the rest of the UI
+- Category buttons get emoji/icon glyphs + active count badge (e.g. "Trading · 4")
+- Add a price range slider (min/max 0G)
+- Add a quick-toggle row: "Newest", "Trending 🔥", "Under 1 0G", "Top creators" — one-tap presets
+- Active-filter chips appear below with an "x" to remove and a "Clear all" link
+- Search gets ⌘K keyboard shortcut hint and live result count
 
-- Add deps: `wagmi`, `viem`, `@rainbow-me/rainbowkit`, `@tanstack/react-query` (already present).
-- Configure 0G Mainnet as a custom viem `Chain` (id 16661, RPC, explorer, symbol 0G).
-- Wrap `__root.tsx` with `WagmiProvider` + `RainbowKitProvider` (custom light theme matching design tokens).
-- Light-mode-only design tokens in `src/styles.css` (off-white bg, near-black ink, single accent, editorial serif display + clean sans body).
+### 3. View toggle: Grid ↔ List
+- Grid (current) for visual browsing
+- List view for dense scanning: thumbnail, name, category tag, price, owner, sales — sortable column headers
+- Toggle persists in localStorage
 
-## 2. Information Architecture (separate routes, not hash anchors)
+### 4. Richer Agent Cards
+- Hover: card lifts subtly (translateY + soft shadow), accent gradient sweeps the top border
+- Add a small sparkline / sales pill ("▲ 24 sales") for social proof
+- "New" ribbon for agents listed in the last 7 days
+- Quick-peek: hovering shows a "View details →" affordance with a micro-animation
+- Tap-to-favorite heart (localStorage), with a "Favorites" filter preset
 
-```
-/                  Landing — hero, featured agents, how it works
-/marketplace       Browse all agents (filters, search, grid)
-/agents/$id        Agent detail — description, pricing, on-chain stats, "Hire / Purchase" tx
-/create            List a new agent (form → contract write)
-/dashboard         User's owned/listed agents, tx history (wallet-gated)
-```
+### 5. Empty & loading states with personality
+- Skeletons shimmer instead of plain pulse
+- Empty state: friendly illustration/emoji + "Reset filters" CTA
+- First-visit tooltip on the search bar (dismissible)
 
-Each route gets its own `head()` metadata (title, description, og tags).
+### 6. Micro-interactions
+- Stagger card entrance using framer-motion (already installed)
+- Filter changes animate the grid with FLIP-style layout transitions (`layout` prop on motion.div)
+- Soft haptic-feel button press (scale 0.97 on tap)
 
-## 3. Wallet & On-Chain Layer
+## Technical notes
 
-- Header `<ConnectButton />` (RainbowKit) — shows account, balance in 0G, network switcher that prompts add/switch to 0G Mainnet if wrong chain.
-- `src/lib/chains.ts` — 0G Mainnet chain definition.
-- `src/lib/wagmi.ts` — wagmi config with RainbowKit connectors.
-- `src/lib/contracts/` — marketplace ABI + address (placeholder constant the user fills in; if the GitHub repo contract is already deployed on mainnet, user supplies address).
-- Hooks: `useAgents()` (read list via `useReadContract` / multicall), `useAgent(id)`, `usePurchaseAgent()` (`useWriteContract` + `useWaitForTransactionReceipt`), `useListAgent()`.
-- All write actions show: pending toast → tx hash link to chainscan → success/failure state.
+- All new UI uses existing semantic tokens from `src/styles.css` — no raw colors
+- Sticky filter bar via `sticky top-0` with a translucent backdrop blur
+- Price slider: shadcn `Slider`; dropdowns: shadcn `Select`; chips: small custom component reused from filter bar
+- Persist view mode + favorites in `localStorage` (no backend needed)
+- Stats computed client-side from the existing `useAgents()` hook
+- Keep the `text-lg font-serif font-semibold` body styling on the wrapper as-is
+- Files touched: `src/routes/marketplace.tsx`, `src/components/AgentCard.tsx`, plus a new `src/components/MarketplaceFilters.tsx` to keep the route clean
 
-## 4. Marketplace UI (the "presentable, clean, on-chain" ask)
-
-- **Editorial card grid**: large agent name in display serif, one-line tagline, price in 0G, owner address (truncated, link to explorer), live on-chain badge (status fetched from contract).
-- **Filters bar**: category, price range, sort (newest / popular / price). State in URL search params.
-- **Empty / loading / error states**: skeleton cards, empty illustration, retry on error — never blank screens.
-- **Agent detail page**: two-column layout — left: long description + capabilities, right: sticky purchase card with price, owner, action button, gas hint.
-- **Tx flow modal**: step indicator (Approve → Confirm → Mined), explorer link, copy hash.
-
-## 5. Dashboard
-
-- Wallet-gated (if not connected → ConnectButton + explainer).
-- Tabs: My Agents, Purchases, Activity.
-- Activity = recent tx logs filtered by user address (via `getLogs`).
-
-## 6. Polish
-
-- Framer Motion: subtle page transitions, card hover lift, modal spring.
-- Toaster (sonner) for tx + wallet events.
-- Responsive: mobile nav drawer, single-column marketplace on small screens.
-- SEO: per-route metadata, semantic headings, alt text.
-
----
-
-## Technical Details
-
-- **Chain config**:
-  ```ts
-  export const ogMainnet = defineChain({
-    id: 16661,
-    name: "0G Mainnet",
-    nativeCurrency: { name: "0G", symbol: "0G", decimals: 18 },
-    rpcUrls: { default: { http: ["https://evmrpc.0g.ai"] } },
-    blockExplorers: { default: { name: "0G ChainScan", url: "https://chainscan.0g.ai" } },
-  });
-  ```
-- **Contract address & ABI**: I will scaffold with a placeholder ABI matching a typical marketplace (`listAgent`, `purchaseAgent`, `getAgent`, `getAllAgents`, `AgentListed`/`AgentPurchased` events). After the rebuild, you paste the deployed mainnet contract address + final ABI and I'll wire it in. If you want I can also infer the ABI from your repo's Solidity if you paste the contract file.
-- **No backend needed** for v1 — all data is read directly from the contract. Lovable Cloud only added later if you want off-chain metadata caching or images.
-
-## Open items you'll need to provide after the rebuild
-
-1. Deployed marketplace **contract address on 0G Mainnet** (and ABI if it differs from the scaffold).
-2. Any agent metadata source (IPFS URI? on-chain string? off-chain JSON?).
-
-## Out of scope for this pass
-
-- Pushing changes back to your GitHub repo.
-- Smart contract changes/deployment.
-- Off-chain indexer / search backend.
-
-Once you approve, I'll build it end-to-end and then ask for the contract address to finalize the on-chain wiring.
+## Out of scope
+- No changes to home, dashboard, agent detail, or contract logic
+- No new dependencies (uses existing framer-motion, lucide-react, shadcn/ui)

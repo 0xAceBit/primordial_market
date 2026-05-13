@@ -103,3 +103,7 @@
   --rk-radii-actionButton: 10px;
   --rk-radii-connectButton: 10px;
 }
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
