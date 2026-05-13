@@ -12,9 +12,9 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/agents/$id")({
   head: ({ params }) => ({
     meta: [
-      { title: `Agent #${params.id} — 0G Agentic` },
+      { title: `Agent #${params.id}, 0G Agentic` },
       { name: "description", content: "Agent details and onchain provenance." },
-      { property: "og:title", content: `Agent #${params.id} — 0G Agentic` },
+      { property: "og:title", content: `Agent #${params.id}, 0G Agentic` },
     ],
   }),
   component: AgentDetail,
@@ -49,7 +49,7 @@ function AgentDetail() {
     if (!isConnected) return;
     if (!onCorrectChain) return ensure();
     if (tx.isDemo) {
-      toast.info("Demo mode — connect your deployed contract to enable real purchases.");
+      toast.info("Demo mode, connect your deployed contract to enable real purchases.");
       return;
     }
     tx.reset();

@@ -11,11 +11,11 @@ import { startAmbient, stopAmbient } from "@/lib/ambient";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "0G Agentic Marketplace — Autonomous agents on 0G Mainnet" },
+      { title: "0G Agentic Marketplace, Autonomous agents on 0G Mainnet" },
       {
         name: "description",
         content:
-          "A premium marketplace for autonomous agents — discover, list, and acquire on 0G Mainnet.",
+          "A premium marketplace for autonomous agents, discover, list, and acquire on 0G Mainnet.",
       },
       { property: "og:title", content: "0G Agentic Marketplace" },
       { property: "og:description", content: "Autonomous agents settled on 0G Mainnet." },
@@ -123,7 +123,7 @@ function Landing() {
             className="mt-10 max-w-xl text-base text-muted-foreground sm:text-lg"
           >
             A premium, fully onchain marketplace for autonomous agents. Built
-            natively on the 0G Network — provenance verified, settlements native,
+            natively on the 0G Network, provenance verified, settlements native,
             curation editorial.
           </motion.p>
 

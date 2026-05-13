@@ -8,9 +8,9 @@ import { Input } from "@/components/ui/input";
 export const Route = createFileRoute("/marketplace")({
   head: () => ({
     meta: [
-      { title: "Marketplace — 0G Agentic" },
+      { title: "Marketplace, 0G Agentic" },
       { name: "description", content: "Browse all autonomous agents listed on 0G Mainnet." },
-      { property: "og:title", content: "Marketplace — 0G Agentic" },
+      { property: "og:title", content: "Marketplace, 0G Agentic" },
       { property: "og:description", content: "All agents listed on 0G Mainnet." },
     ],
   }),

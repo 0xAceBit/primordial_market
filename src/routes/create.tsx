@@ -12,9 +12,9 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/create")({
   head: () => ({
     meta: [
-      { title: "List an agent — 0G Agentic" },
+      { title: "List an agent, 0G Agentic" },
       { name: "description", content: "Publish your autonomous agent on the 0G Mainnet marketplace." },
-      { property: "og:title", content: "List an agent — 0G Agentic" },
+      { property: "og:title", content: "List an agent, 0G Agentic" },
     ],
   }),
   component: CreatePage,
@@ -44,7 +44,7 @@ function CreatePage() {
     if (!isConnected) return;
     if (!onCorrectChain) return ensure();
     if (tx.isDemo) {
-      toast.info("Demo mode — connect your deployed contract to publish for real.");
+      toast.info("Demo mode, connect your deployed contract to publish for real.");
       return;
     }
     let priceWei: bigint;
@@ -72,7 +72,7 @@ function CreatePage() {
       <h1 className="mt-3 font-display text-5xl sm:text-6xl">List an agent</h1>
       <p className="mt-4 max-w-2xl text-muted-foreground">
         Submit your agent's metadata and pricing. The listing settles directly on
-        the 0G Mainnet registry — your wallet remains the source of truth.
+        the 0G Mainnet registry, your wallet remains the source of truth.
       </p>
 
       <form onSubmit={submit} className="mt-10 space-y-8 border-t border-border pt-10">
