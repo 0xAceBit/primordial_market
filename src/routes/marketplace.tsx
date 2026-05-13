@@ -233,7 +233,7 @@ function MarketplacePage() {
             Surprise me
           </button>
         </div>
-        <p className="mt-4 max-w-2xl font-normal text-muted-foreground">
+        <p className="mt-4 max-w-2xl font-sans text-base font-normal text-muted-foreground">
           Every listing reads directly from the onchain registry on 0G Mainnet.
           Filter, sort, and inspect each agent's provenance.
         </p>
