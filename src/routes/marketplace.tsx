@@ -335,9 +335,9 @@ function MarketplacePage() {
           {/* price slider + chips */}
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex w-full max-w-sm items-center gap-3">
-              <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Price</span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Max price</span>
               <Slider
-                value={priceRange}
+                value={[maxPriceFilter]}
                 onValueChange={(v) => setMaxPriceFilter(v[0])}
                 min={0}
                 max={maxPrice}
@@ -345,7 +345,7 @@ function MarketplacePage() {
                 className="flex-1"
               />
               <span className="font-mono text-[11px] font-normal text-muted-foreground tabular-nums">
-                {0}–{maxPriceFilter} 0G
+                ≤ {maxPriceFilter.toFixed(2)} 0G
               </span>
             </div>
 
