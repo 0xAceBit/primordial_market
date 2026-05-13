@@ -49,7 +49,7 @@ function MarketplacePage() {
   }, [agents, q, category, sort]);
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-16">
+    <div className="mx-auto max-w-7xl px-6 py-16 text-lg font-serif font-semibold">
       <header className="border-b border-border pb-10">
         <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">
           The Marketplace
