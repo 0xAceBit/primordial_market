@@ -120,7 +120,7 @@ function MarketplacePage() {
 
   // initialise price range to full span when agents load
   useEffect(() => {
-    setPriceRange([0, maxPrice]);
+    setMaxPriceFilter(maxPrice);
   }, [maxPrice]);
 
   const categories = useMemo(() => {
@@ -143,7 +143,7 @@ function MarketplacePage() {
         a.name.toLowerCase().includes(q.toLowerCase()) ||
         a.description.toLowerCase().includes(q.toLowerCase());
       const priceEth = Number(formatEther(a.price));
-      const inPrice = priceEth >= priceRange[0] && priceEth <= priceRange[1];
+      const inPrice = priceEth >= 0 && priceEth <= maxPriceFilter;
 
       let inPreset = true;
       if (preset === "trending") inPreset = Number(a.sales) >= 50;
@@ -195,7 +195,7 @@ function MarketplacePage() {
     setQ("");
     setCategory("All");
     setPreset("all");
-    setPriceRange([0, maxPrice]);
+    setMaxPriceFilter(maxPrice);
   };
 
   const activeChips: { label: string; onClear: () => void }[] = [];
@@ -206,10 +206,10 @@ function MarketplacePage() {
       label: preset === "trending" ? "Trending" : preset === "cheap" ? "Under 1 0G" : "Favorites",
       onClear: () => setPreset("all"),
     });
-  if (priceRange[0] > 0 || priceRange[1] < maxPrice)
+  if (0 > 0 || maxPriceFilter < maxPrice)
     activeChips.push({
-      label: `${priceRange[0]} – ${priceRange[1]} 0G`,
-      onClear: () => setPriceRange([0, maxPrice]),
+      label: `${0} – ${maxPriceFilter} 0G`,
+      onClear: () => setMaxPriceFilter(maxPrice),
     });
 
   return (
@@ -338,14 +338,14 @@ function MarketplacePage() {
               <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Price</span>
               <Slider
                 value={priceRange}
-                onValueChange={(v) => setPriceRange([v[0], v[1]] as [number, number])}
+                onValueChange={(v) => setMaxPriceFilter(v[0])}
                 min={0}
                 max={maxPrice}
                 step={0.05}
                 className="flex-1"
               />
               <span className="font-mono text-[11px] font-normal text-muted-foreground tabular-nums">
-                {priceRange[0]}–{priceRange[1]} 0G
+                {0}–{maxPriceFilter} 0G
               </span>
             </div>
 
