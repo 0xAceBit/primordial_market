@@ -38,6 +38,10 @@ function Landing() {
     return () => clearInterval(t);
   }, []);
 
+  useEffect(() => {
+    return () => stopAmbient();
+  }, []);
+
   return (
     <div>
       {/* HERO */}
