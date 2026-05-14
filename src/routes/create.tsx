@@ -24,6 +24,7 @@ function CreatePage() {
   const { isConnected } = useAccount();
   const { onCorrectChain, ensure, isPending: switching } = useEnsureOgChain();
   const tx = useListAgent();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
     name: "",
@@ -36,8 +37,15 @@ function CreatePage() {
     if (tx.hash && !open) setOpen(true);
   }, [tx.hash, open]);
   useEffect(() => {
-    if (tx.isSuccess) toast.success("Agent listed on 0G Mainnet");
-  }, [tx.isSuccess]);
+    if (tx.isSuccess) {
+      toast.success("Agent listed on 0G Mainnet");
+      const t = setTimeout(() => {
+        setOpen(false);
+        navigate({ to: "/marketplace" });
+      }, 1500);
+      return () => clearTimeout(t);
+    }
+  }, [tx.isSuccess, navigate]);
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
