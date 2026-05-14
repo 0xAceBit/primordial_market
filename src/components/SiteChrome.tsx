@@ -14,7 +14,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link to="/" className="flex items-center gap-2">
-          <img src={brandLogo} alt="0G Agentic Marketplace" className="h-8 w-8 rounded-full object-cover" />
+          <img src={brandLogo} alt="Primordial Market" className="h-8 w-8 rounded-full object-cover" />
           <span className="font-display text-xl">0G&nbsp;Agentic</span>
         </Link>
         <nav className="hidden items-center gap-8 md:flex">
@@ -49,7 +49,7 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-border">
       <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-10 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
-        <p className="font-display text-base text-foreground">0G Agentic Marketplace</p>
+        <p className="font-display text-base text-foreground">Primordial Market</p>
         <p>
           Built on{" "}
           <a

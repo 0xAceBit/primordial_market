@@ -12,9 +12,9 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/create")({
   head: () => ({
     meta: [
-      { title: "List an agent, 0G Agentic" },
+      { title: "List an agent, Primordial Market" },
       { name: "description", content: "Publish your autonomous agent on the 0G Mainnet marketplace." },
-      { property: "og:title", content: "List an agent, 0G Agentic" },
+      { property: "og:title", content: "List an agent, Primordial Market" },
     ],
   }),
   component: CreatePage,
