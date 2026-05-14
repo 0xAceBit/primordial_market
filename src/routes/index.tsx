@@ -11,13 +11,13 @@ import { startAmbient, stopAmbient } from "@/lib/ambient";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "0G Agentic Marketplace, Autonomous agents on 0G Mainnet" },
+      { title: "Primordial Market, Autonomous agents on 0G Mainnet" },
       {
         name: "description",
         content:
           "A premium marketplace for autonomous agents, discover, list, and acquire on 0G Mainnet.",
       },
-      { property: "og:title", content: "0G Agentic Marketplace" },
+      { property: "og:title", content: "Primordial Market" },
       { property: "og:description", content: "Autonomous agents settled on 0G Mainnet." },
       { property: "og:type", content: "website" },
     ],
@@ -90,7 +90,7 @@ function Landing() {
             transition={{ delay: 0.2 }}
             className="text-xs uppercase tracking-[0.32em] text-muted-foreground"
           >
-            The 0G Agentic Marketplace
+            The Primordial Market
           </motion.p>
 
           <motion.h1

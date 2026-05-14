@@ -29,9 +29,9 @@ import { formatOG } from "@/lib/format";
 export const Route = createFileRoute("/marketplace")({
   head: () => ({
     meta: [
-      { title: "Marketplace, 0G Agentic" },
+      { title: "Marketplace, Primordial Market" },
       { name: "description", content: "Browse all autonomous agents listed on 0G Mainnet." },
-      { property: "og:title", content: "Marketplace, 0G Agentic" },
+      { property: "og:title", content: "Marketplace, Primordial Market" },
       { property: "og:description", content: "All agents listed on 0G Mainnet." },
     ],
   }),
