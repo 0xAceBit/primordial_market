@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as MemoryVaultRouteImport } from './routes/memory-vault'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CreateRouteImport } from './routes/create'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AgentsIdRouteImport } from './routes/agents.$id'
 
+const MemoryVaultRoute = MemoryVaultRouteImport.update({
+  id: '/memory-vault',
+  path: '/memory-vault',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MarketplaceRoute = MarketplaceRouteImport.update({
   id: '/marketplace',
   path: '/marketplace',
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/create': typeof CreateRoute
   '/dashboard': typeof DashboardRoute
   '/marketplace': typeof MarketplaceRoute
+  '/memory-vault': typeof MemoryVaultRoute
   '/agents/$id': typeof AgentsIdRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/create': typeof CreateRoute
   '/dashboard': typeof DashboardRoute
   '/marketplace': typeof MarketplaceRoute
+  '/memory-vault': typeof MemoryVaultRoute
   '/agents/$id': typeof AgentsIdRoute
 }
 export interface FileRoutesById {
@@ -61,19 +69,33 @@ export interface FileRoutesById {
   '/create': typeof CreateRoute
   '/dashboard': typeof DashboardRoute
   '/marketplace': typeof MarketplaceRoute
+  '/memory-vault': typeof MemoryVaultRoute
   '/agents/$id': typeof AgentsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/create' | '/dashboard' | '/marketplace' | '/agents/$id'
+  fullPaths:
+    | '/'
+    | '/create'
+    | '/dashboard'
+    | '/marketplace'
+    | '/memory-vault'
+    | '/agents/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/create' | '/dashboard' | '/marketplace' | '/agents/$id'
+  to:
+    | '/'
+    | '/create'
+    | '/dashboard'
+    | '/marketplace'
+    | '/memory-vault'
+    | '/agents/$id'
   id:
     | '__root__'
     | '/'
     | '/create'
     | '/dashboard'
     | '/marketplace'
+    | '/memory-vault'
     | '/agents/$id'
   fileRoutesById: FileRoutesById
 }
@@ -82,11 +104,19 @@ export interface RootRouteChildren {
   CreateRoute: typeof CreateRoute
   DashboardRoute: typeof DashboardRoute
   MarketplaceRoute: typeof MarketplaceRoute
+  MemoryVaultRoute: typeof MemoryVaultRoute
   AgentsIdRoute: typeof AgentsIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/memory-vault': {
+      id: '/memory-vault'
+      path: '/memory-vault'
+      fullPath: '/memory-vault'
+      preLoaderRoute: typeof MemoryVaultRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/marketplace': {
       id: '/marketplace'
       path: '/marketplace'
@@ -130,8 +160,19 @@ const rootRouteChildren: RootRouteChildren = {
   CreateRoute: CreateRoute,
   DashboardRoute: DashboardRoute,
   MarketplaceRoute: MarketplaceRoute,
+  MemoryVaultRoute: MemoryVaultRoute,
   AgentsIdRoute: AgentsIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
